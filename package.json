@@ -1,0 +1,25 @@
+{
+  "name": "tinyurlservice",
+  "version": "1.0.1",
+  "description": "TinyURL (URL shortener) Service",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhierrox/tinyurl_url-shortener_service.git"
+  },
+  "author": "xun_zou",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zhierrox/tinyurl_url-shortener_service/issues"
+  },
+  "homepage": "https://github.com/zhierrox/tinyurl_url-shortener_service#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2"
+  },
+  "devDependencies": {}
+}

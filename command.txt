@@ -1,0 +1,14 @@
+nodmon:
+	npm view nodemon version
+	npm config get prefix
+	export PATH=/usr/local/Cellar/node/7.0.0/libexec/npm/bin:$PATH
+
+	mac修改环境变量：：
+		vi ~/.bash_profile
+
+		export PATH="/usr/local/Cellar/node/7.0.0/libexec/npm/bin/:${PATH}"
+
+		export PATH=...:/usr/local/Cellar/node/7.0.0/libexec/npm/bin
+		
+		:w !sudo tee %
+			Then type (L)oad at the prompt, to re-load the file after it is saved.
