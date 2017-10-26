@@ -1,0 +1,46 @@
+nodmon:
+	npm view nodemon version
+	npm config get prefix
+	export PATH=/usr/local/Cellar/node/7.0.0/libexec/npm/bin:$PATH
+
+	mac修改环境变量：：
+		vi ~/.bash_profile
+
+		export PATH="/usr/local/Cellar/node/7.0.0/libexec/npm/bin/:${PATH}"
+
+		export PATH=...:/usr/local/Cellar/node/7.0.0/libexec/npm/bin
+		
+		:w !sudo tee %
+			Then type (L)oad at the prompt, to re-load the file after it is saved.
+
+Docker:
+	docker build -t zhierrox/tiny .
+
+	docker image
+
+	docker run --name tinyurlservice -p 80:3000 -d zhierrox/tiny
+
+	docker run --name tinyurlservice -p 80:3000 --env ROOT_URL=http://192.168.1.8 -d zhierrox/tiny
+
+	docker rm -f 98a87bc76718[docker container id; 删除docker container, 但image还在]
+
+	http://192.168.1.8:80
+
+Docker compose::
+	写docker-compose.yml, 且yml不能用/t，只能用空格
+	简化了：：docker  build, docker run link
+
+	docker-compose up --build
+
+Redis::连接docker的redis container
+	var host = process.env.REDIS_PORT_6379_TCP_ADDR;
+	var port = process.env.REDIS_PORT_6379_TCP_PORT;
+
+	var redisClient = redis.createClient(port, host);
+
+
+
+
+
+
+
