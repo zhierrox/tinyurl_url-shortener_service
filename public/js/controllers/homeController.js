@@ -6,7 +6,8 @@ angular.module("tinyurlApp")
 					longUrl: $scope.longUrl
 				})
 				.success(function (data) {
+					//go to "localhost:3000/urls/A"
 					$location.path("/urls/" + data.shortUrl);
 				});
-			};
+			}
 		}]);

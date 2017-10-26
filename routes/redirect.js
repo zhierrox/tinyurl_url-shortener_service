@@ -7,7 +7,12 @@ router.get("*", function(req, res) {
 	//originalUrl is "/shortUrl"; slice from index 1
 	var shortUrl = req.originalUrl.slice(1);
 	var longUrl = urlService.getLongUrl(shortUrl);
-	res.redirect(longUrl);
+	if (longUrl) {
+		res.redirect(longUrl);
+	} else {
+		res.send("Oooooops!");
+	}
+	
 });
 
 module.exports = router;
