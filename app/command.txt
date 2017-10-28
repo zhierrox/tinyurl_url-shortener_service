@@ -38,6 +38,20 @@ Redis::连接docker的redis container
 
 	var redisClient = redis.createClient(port, host);
 
+Apache Benchmark：：AB Test
+	ab -n 10000 -c 50 http://127.0.0.1/#/urls/A
+
+	-n：：总请求数
+	-c：：同时发送请求数
+	最后参数：：要测试的页面,不支持localhost, 需要使用ip
+
+	Apache JMeter更专业
+
+AngularJS：：
+	ng-href自动抹去http
+
+	给shortUrl自动加上ip
+
 
 
 

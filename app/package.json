@@ -18,8 +18,11 @@
   },
   "homepage": "https://github.com/zhierrox/tinyurl_url-shortener_service#readme",
   "dependencies": {
+    "angular-chart.js": "^1.1.1",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
+    "express-useragent": "^1.0.8",
+    "geoip-lite": "^1.2.1",
     "mongoose": "^4.12.4",
     "redis": "^2.8.0"
   },
