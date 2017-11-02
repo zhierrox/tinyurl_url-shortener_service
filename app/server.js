@@ -1,10 +1,17 @@
 var express = require("express");
 var app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 var restRouter = require("./routes/rest");
 var redirectRouter = require("./routes/redirect");
 var indexRouter = require("./routes/index");
 var mongoose = require("mongoose");
 var useragent = require("express-useragent");
+
+var redis = require("redis");
+var host = process.env.REDIS_PORT_6379_TCP_ADDR;
+var port = process.env.REDIS_PORT_6379_TCP_PORT;
+var redisClient = redis.createClient(port, host);
 
 mongoose.connect("mongodb://user:user@ds231715.mlab.com:31715/tinyurlservice");
 
@@ -20,6 +27,43 @@ app.use("/", indexRouter);
 
 app.use("/:shortUrl", redirectRouter);
 
-app.listen(3000);
+server.listen(3000);
+console.log("Server started at port 3000...");
 
-console.log("node server starting...");
+io.on("connection", function(socket) {
+	socket.on("registerShortUrl", function(shortUrl) {
+		redisClient.subscribe(shortUrl, function() {
+			socket.shortUrl = shortUrl;
+			console.log("Subscribe to" + shortUrl + " channel via redis");
+		});
+
+		redisClient.on('message', function(channel, message) {
+			if (message === socket.shortUrl) {
+				socket.emit('shortUrlUpdated');
+			}
+		});
+	});
+
+	socket.on('disconnect', function() {
+		if (socket.shortUrl == null) {
+			return;
+		}
+		redisClient.unsubscribe(socket.shortUrl, function() {
+			console.log("Unsubscribed channel " + socket.shortUrl + " from redis");
+		});
+	});
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+

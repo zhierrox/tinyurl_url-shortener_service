@@ -1,4 +1,4 @@
-var app = angular.module("tinyurlApp", ["ngRoute", "ngResource", "chart.js"]);
+var app = angular.module("tinyurlApp", ["ngRoute", "ngResource", "chart.js", "ui.bootstrap"]);
 
 app.config(function ($routeProvider) {
 	$routeProvider

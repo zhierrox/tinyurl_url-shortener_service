@@ -22,33 +22,36 @@ encode = encode.concat(genCharArray("A", "Z"));
 encode = encode.concat(genCharArray("a", "z"));
 encode = encode.concat(genCharArray("0", "9"));
 
-var getShortUrl = function (longUrl, callback) {
+var getShortUrl = function (username, longUrl, callback) {
 	if (longUrl.indexOf("http") === -1) {
 		longUrl = "http://" + longUrl;
 	}
 
-	redisClient.get(longUrl, function(err, shortUrl) {
+	redisClient.get(username + ":" + longUrl, function(err, shortUrl) {
 		if (shortUrl) {
 			console.log("Byebye mongo!");
 			callback({
 				shortUrl: shortUrl,
-				longUrl: longUrl
+				longUrl: longUrl,
+				username: username
 			});
 		} else {
-			UrlModel.findOne({longUrl: longUrl}, function(err, data) {
+			UrlModel.findOne({username: username, longUrl: longUrl}, function(err, data) {
 				if (data) {
 					callback(data);
 					redisClient.set(data.shortUrl, data.longUrl);
-					redisClient.set(data.longUrl, data.shortUrl);
+					redisClient.set(username + ":" + data.longUrl, data.shortUrl);
 				} else {
 					generateShortUrl(function (shortUrl) {
 						var url = new UrlModel({
 							shortUrl: shortUrl,
-							longUrl: longUrl
+							longUrl: longUrl,
+							username: username,
+							creationTime: new Date()
 						});
 						url.save();
 						redisClient.set(shortUrl, longUrl);
-						redisClient.set(longUrl, shortUrl);
+						redisClient.set(username + ":" + longUrl, shortUrl);
 						callback(url);
 					});
 				}
@@ -94,10 +97,18 @@ var getLongUrl = function(shortUrl, callback) {
 		}
 	});
 };
+
+var getMyUrls = function(username, callback) {
+	//urls = data
+	UrlModel.find({username: username}, function(err, urls) {
+		callback(urls);
+	});
+};
  
 module.exports = {
 	getShortUrl: getShortUrl,
-	getLongUrl: getLongUrl
+	getLongUrl: getLongUrl,
+	getMyUrls: getMyUrls
 };
 
 

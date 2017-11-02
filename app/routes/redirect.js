@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 var urlService = require("../services/urlService");
 var path = require("path");
-var statsService = require("../services/statsService")
+var statsService = require("../services/statsService");
 
 // "*" regex express, can handle any content
 router.get("*", function(req, res) {

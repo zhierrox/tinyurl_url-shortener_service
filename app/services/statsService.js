@@ -1,5 +1,9 @@
 var geoip = require("geoip-lite");
 var RequestModel = require("../models/requestModel");
+var redis = require("redis");
+var host = process.env.REDIS_PORT_6379_TCP_ADDR;
+var port = process.env.REDIS_PORT_6379_TCP_PORT;
+var redisClient = redis.createClient(port, host);
 
 var logRequest = function(shortUrl, req) {
 	var reqInfo = {};
@@ -22,7 +26,9 @@ var logRequest = function(shortUrl, req) {
 	}
 	reqInfo.timestamp = new Date();
 	var request = new RequestModel(reqInfo);
-	request.save();
+	request.save(function(err) {
+		redisClient.publish(shortUrl, shortUrl);
+	});
 };
 
 var getUrlInfo = function(shortUrl, info, callback) {
